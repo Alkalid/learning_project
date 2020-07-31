@@ -36,18 +36,14 @@ function sentws(msg) {
 
 function ServerHello() {
   //alert("ServerHello");
-  //vdderr = document.querySelector('video').currentTime;////////////////獲得現在影片的時間
-
-  //document.querySelector('video').addEventListener
-
-  //alert(vdderr);
+  
 
   chrome.storage.sync.get('danmo_channel', function (data) {
     if (data.danmo_channel == null) {
       alert("錯誤")
     } else {
       if (isOn == "true") {
-        text.push(new Text("已連線至頻道:" + data.danmo_channel));
+        //text.push(new Text("已連線至頻道:" + data.danmo_channel));
       }
       sentws({
         "msg_type": "ServerHello",
@@ -59,7 +55,7 @@ function ServerHello() {
 
 if (!isActive) {
   isActive = true
-  text.push(new Text("初始化..."));
+  //text.push(new Text("初始化..."));
   chrome.storage.sync.get('danmo_enable', function (data) {
     isOn = data.danmo_enable;
     renewWS();

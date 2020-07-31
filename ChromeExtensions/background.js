@@ -19,17 +19,6 @@ function checkForValidUrl(tabId, changeInfo, tab) //確認開啟擴充的網址
   {
       // ... show the page action.
       chrome.pageAction.show(tabId);
-      //獲取影片id的方式
-      /*var video_id = tab.url.split('v=')[1];
-      var ampersandPosition = video_id.indexOf('&');
-      if(ampersandPosition != -1) 
-      {
-        video_id = video_id.substring(0, ampersandPosition);
-        
-      }
-      console.log("video_id    "+video_id);*/
-      //console.log("video_id2    "+youtube_parser(tab.url));
-      ////
       
       
   }
