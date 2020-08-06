@@ -22,7 +22,7 @@ document.getElementsByTagName("head")[0].appendChild(style);
 document.body.append(canvas);
 var context = canvas.getContext("2d");
 context.fillStyle = "#1e87ff";
-context.font = "60px Arial";
+context.font = "60px 微軟正黑體";
 context.strokeStyle = "#000000";
 var text = [];
 
