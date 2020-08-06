@@ -4,11 +4,14 @@
 
 'use strict';
 chrome.runtime.sendMessage({popupOpen: true});
-
+///////////////by an
+let color_input = document.getElementById('color'); 
+///////////////
 let channel_name_tag = document.getElementById('channel');
 let channel_button = document.getElementById('setchannelbut');
 let msg = $("#msg");
 let rand_set_cha = document.getElementById('randomset');
+
 function setStorage(key,value){
   var jsonfile = {};
   jsonfile[key]=value;
@@ -27,7 +30,7 @@ $('#myonoffswitch').change(function() {
     setOpen("false");
   }
 });
-function setQRcode(channel){
+function setQRcode(channel){channel
   $('#qrcode').empty();
   $('#qrcode').qrcode("https://danmo.foxo.tw/#"+channel);
 }
@@ -73,6 +76,14 @@ $('#channel').keypress(function (e) {
     setChannel(channel_name_tag.value);
    }
  });
+
+
+///////////////////////////////////////////////////by an
+
+
+ color_input.onchange = function (element) {
+  setStorage("danmo_color",color_input.value);
+}
 
  
  

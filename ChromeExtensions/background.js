@@ -25,7 +25,12 @@ function checkForValidUrl(tabId, changeInfo, tab) //確認開啟擴充的網址
   
   //alert(tab.url);
 }
+
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
+
+
+
+
 
 function setStorage(key,value){
   chrome.storage.sync.set({
@@ -52,6 +57,7 @@ chrome.runtime.onInstalled.addListener(function () {
 
   for (var i = 0; i < 5; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
+
   chrome.storage.sync.set({
     danmo_channel: text
   }, function () {
@@ -62,4 +68,11 @@ chrome.runtime.onInstalled.addListener(function () {
   }, function () {
     console.log('The danmo_channel is set.');
   });
+
+  chrome.storage.sync.set({
+    danmo_color: "#000000"
+  }, function () {
+    console.log('The danmo_color is set.');
+  });
+
 });
