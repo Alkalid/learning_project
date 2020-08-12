@@ -6,7 +6,9 @@
 chrome.runtime.sendMessage({popupOpen: true});
 ///////////////by an
 let color_input = document.getElementById('color'); 
-///////////////
+let comment_input = document.getElementById('comment'); 
+let submit_input = document.getElementById('submitComment'); 
+/////////////////////////////
 let channel_name_tag = document.getElementById('channel');
 let channel_button = document.getElementById('setchannelbut');
 let msg = $("#msg");
@@ -58,9 +60,11 @@ function setChannel(channel) {
     setQRcode(channel);
 
 }
+/*
 channel_button.onclick = function (element) {
   setChannel(channel_name_tag.value);
-}
+}*/
+/*
 rand_set_cha.onclick = function (element) {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -68,7 +72,7 @@ rand_set_cha.onclick = function (element) {
   for (var i = 0; i < 5; i++)
    text += possible.charAt(Math.floor(Math.random() * possible.length));
   setChannel(text);
-}
+}*/
 $('#channel').keypress(function (e) {
   var key = e.which;
   if(key == 13)  // the enter key code
@@ -85,5 +89,11 @@ $('#channel').keypress(function (e) {
   setStorage("danmo_color",color_input.value);
 }
 
- 
+submit_input.onclick = function (element) {
+  setDanmoText(comment_input.value);
+}
+
+function setDanmoText(text) {
+  setStorage("danmo_text",text);
+}
  

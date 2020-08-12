@@ -22,7 +22,7 @@ document.getElementsByTagName("head")[0].appendChild(style);
 document.body.append(canvas);
 var context = canvas.getContext("2d");
 context.fillStyle = "#1e87ff";
-context.font = "60px 微軟正黑體";
+context.font = "45px 微軟正黑體";
 context.strokeStyle = "#000000";
 var text = [];
 
@@ -30,8 +30,10 @@ class Text{
   constructor(text, color){
       this.text = text;
       this.color = color;
-      this.x = canvas.width;
-      this.y = random(60, canvas.height - 12);
+      this.x = 1000;
+      //this.x = canvas.width;
+      this.y = random(120, canvas.height - 200);  //彈幕位置
+      //this.y = random(60, canvas.height - 12);
       this.width = context.measureText(this.text);
   }
 

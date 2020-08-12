@@ -14,7 +14,7 @@
   },
   "page_action": {
     "default_popup": "popup.html",
-    "default_title": "設定頻道名稱",
+    "default_title": "註記功能",
     "default_icon": "images/fox.png"
 
   },

@@ -1,6 +1,6 @@
 var VideoID = "";
 var d_color = "";
-
+vdderr = document.querySelector('video');
 
 function youtube_parser(url) {    //獲得影片id
   var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -44,14 +44,58 @@ wsocket.onmessage = function (re) {
 
 }
 
+
+chrome.storage.onChanged.addListener(function (changes, namespace) {  //有東西改變的話
+
+  for (var key in changes) {
+    var storageChange = changes[key];
+
+    if (key == "danmo_text") {
+      newMarks(storageChange.newValue);
+      //alert(storageChange.newValue);
+    }
+
+    if (key == "danmo_color") {
+      d_color = storageChange.newValue;
+      alert(storageChange.newValue);
+    }
+
+  }
+
+});
+
+
+function newMarks(text) {
+  wsocket2 = new WebSocket("wss://114.35.11.36:3000/test");
+  wsocket2.onopen = function (evt) {
+    // 向server要資料
+    wsocket2.send("newDanmo " + VideoID + ";" + text + ";" + Math.floor(vdderr.currentTime)  + ";" + "UKpUTHTXgY");
+  }
+  
+
+  wsocket2.onmessage = function (re) {
+    // server傳回的資料
+    //console.log("01");
+    var redata = "";
+    redata = re.data.toString();
+
+    console.log(redata);
+    if(redata =="success"){
+      //alert("close");
+      wsocket.close();
+    }
+
+  }
+}
+
 function showMarks(MarksArr)      ////////////////獲得現在影片的時間
 {
   MarkIndex = 0;
   var VideoCurrentTime = 0;
-  vdderr = document.querySelector('video');
+  
 
   vdderr.addEventListener('timeupdate', function () {   //讀取影片現在的秒數
-    renewColor();
+    //renewColor();
     console.log(this.currentTime);
 
     while (MarkIndex < MarksArr.length) {
@@ -78,12 +122,7 @@ function showMarks(MarksArr)      ////////////////獲得現在影片的時間
     console.log("click");
   });
 
-  
 }
 
-function renewColor() {
-  chrome.storage.sync.get('danmo_color', function (data) {
-    d_color = data.danmo_color;
-  });
-}
+
 

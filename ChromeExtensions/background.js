@@ -20,18 +20,13 @@ function checkForValidUrl(tabId, changeInfo, tab) //確認開啟擴充的網址
       // ... show the page action.
       chrome.pageAction.show(tabId);
       
-      
   }
-  
   //alert(tab.url);
 }
 
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
 
-
-
-
-
+////////////////////////////////////////////////////////////////////////////
 function setStorage(key,value){
   chrome.storage.sync.set({
     key: value
@@ -73,6 +68,12 @@ chrome.runtime.onInstalled.addListener(function () {
     danmo_color: "#000000"
   }, function () {
     console.log('The danmo_color is set.');
+  });
+
+  chrome.storage.sync.set({
+    danmo_text: ""
+  }, function () {
+    console.log('The danmo_text is set.');
   });
 
 });
