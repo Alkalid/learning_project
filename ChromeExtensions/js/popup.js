@@ -156,13 +156,15 @@ color_input.onchange = function (element) {
 }
 
 submit_input.onclick = function (element) {
-  comment_input.value = "";
-  setDanmoText(comment_input.value);
-  
+  if (comment_input.value != '') {
+    setDanmoText(comment_input.value);
+    comment_input.value = "";
+  }
+
 }
 
 function setDanmoText(text) {
-  for (var i = 0;  i < hashtag.length; i++) {
+  for (var i = 0; i < hashtag.length; i++) {
     if (hashtag[i].checked) {
       setStorage("danmo_text", text + ";" + hashtag[i].value);
     }

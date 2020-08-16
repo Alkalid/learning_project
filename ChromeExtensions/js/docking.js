@@ -2,6 +2,7 @@ var VideoID = "";
 var d_color = "";
 var uid = "";
 var wsocket;
+var alertTab; //用來顯示警告
 
 vdderr = document.querySelector('video');
 
@@ -12,7 +13,7 @@ function youtube_parser(url) {    //獲得影片id
 }
 
 console.log(youtube_parser(document.URL));
-//console.log("uid" + getUid());
+console.log("time" +vdderr.duration );
 
 VideoID = youtube_parser(document.URL);
 
@@ -38,7 +39,7 @@ function checkNewPage() {
 }
 
 function getVideoComment() {
-  
+
   wsocket = new WebSocket("wss://114.35.11.36:3000/test");
   wsocket.onopen = function (evt) {
     // 向server要資料
@@ -61,7 +62,7 @@ function getVideoComment() {
         var post_id = PostArr[i]['content'];
         console.log(post_id);
       }
-      
+      ShowMsgBoard(PostArr);
       showMarks(PostArr);
 
       console.log("aftershowMarks");
@@ -125,13 +126,49 @@ function newMarks(text) {         //新增彈幕
 
 function showMarks(MarksArr)      ////////////////獲得現在影片的時間
 {
+  alertTab = new Array(Math.floor(vdderr.duration)); //燈號以秒計算
+  for (var k = 0; k < alertTab.length; k++) {
+    alertTab[k] = 0;
+  }
+    
+
+
+  for (var i = 0; i < MarksArr.length; i++) {   //找出出現問題的地方
+    if (MarksArr[i]['hashtag'] == "有問題" || MarksArr[i]['hashtag'] == "聽不懂") { 
+      point = parseInt(MarksArr[i]['time']);
+      console.log(point);
+      for (var j = 5; j >= 1 && point >= 0; j--) {
+        alertTab[point] += 1;
+        point--;
+      }
+
+    }
+  }
+
+  for (var k = 0; k < alertTab.length; k++)
+    console.log(k + " "+alertTab[k]);
+
   MarkIndex = 0;
   var VideoCurrentTime = 0;
 
+  MarkIndex2 = 0;
 
   vdderr.addEventListener('timeupdate', function () {   //讀取影片現在的秒數
     //renewColor();
     console.log(this.currentTime);
+
+    if(alertTab[Math.floor(this.currentTime)] == 0 )
+    {
+      alertbtn.setAttribute("style", "width: 200px; height:20px; background-color: green;");
+    }
+    else if(alertTab[Math.floor(this.currentTime)] == 1 )
+    {
+      alertbtn.setAttribute("style", "width: 200px; height:20px; background-color: yellow;");
+    }
+    else if(alertTab[Math.floor(this.currentTime)] > 0 )
+    {
+      alertbtn.setAttribute("style", "width: 200px; height:20px; background-color: red;");
+    }
 
     while (MarkIndex < MarksArr.length) {
       if (MarksArr[MarkIndex]['time'] < this.currentTime + 1 && MarksArr[MarkIndex]['time'] > this.currentTime) {
@@ -160,13 +197,53 @@ function showMarks(MarksArr)      ////////////////獲得現在影片的時間
 }
 
 
+function ShowMsgBoard(MarksArr) {
+
+  var MsgBoard_div = document.createElement('div');
+  MsgBoard_div.setAttribute("style", "height:500px; width:350px; overflow:auto;");
+
+
+  var content_div = document.createElement('div');
+  content_div.setAttribute("style", "float:left;");
+
+  var Sec_div = document.createElement('div');
+
+
+  for (var i = 0; i < MarksArr.length; i++) {
+    p1 = document.createElement('p');
+    p2 = document.createElement('p');
+    p1.innerHTML = MarksArr[i]['content'] + " ";
+    p2.innerHTML = "  " + MarksArr[i]['time'];
+    //MsgBoard_div.innerHTML += MarksArr[i]['content']  ;
+    content_div.appendChild(p1);
+    Sec_div.appendChild(p2);
+  }
+
+  MsgBoard_div.appendChild(content_div);
+  MsgBoard_div.appendChild(Sec_div);
+
+  var thebr = document.createElement('br');
+
+  commentdiv = document.getElementById('secondary');
+  commentdiv.setAttribute("style", "float:left");
+  commentdiv.prepend(thebr);
+  commentdiv.prepend(thebr);
+  commentdiv.prepend(thebr);
+  commentdiv.prepend(MsgBoard_div);
+  commentdiv.prepend(alertbtn);
+
+}
+
+var alertbtn = document.createElement('button');
+
+
 var imgtag = document.createElement('img'); //第4 tag img
 imgtag.setAttribute("src", "https://upload.cc/i1/2020/06/09/sHWv4f.png");
 imgtag.setAttribute("style", "width: 200px;margin-left: 14px;margin-right: 7px;margin-top: 4px;float:left");
-
+/*
 commentdiv = document.getElementById('secondary');
 commentdiv.setAttribute("style", "float:right");
-commentdiv.prepend(imgtag);
+commentdiv.prepend(imgtag);*/
 
 
 
