@@ -24,7 +24,7 @@ let ControlBoard = document.getElementById('ControlBoard');
 let account_input = document.getElementById('account_input');
 let password_input = document.getElementById('password_input');
 let login_btn = document.getElementById('login_btn');
-
+let hashtag = document.getElementsByName('hashtag');
 
 function setStorage(key, value) {
   var jsonfile = {};
@@ -105,7 +105,7 @@ function checkLogin() {
       PageSwitcher(0);
     } else {
       PageSwitcher(1);
-      
+
     }
   });
 }
@@ -156,9 +156,16 @@ color_input.onchange = function (element) {
 }
 
 submit_input.onclick = function (element) {
+  comment_input.value = "";
   setDanmoText(comment_input.value);
+  
 }
 
 function setDanmoText(text) {
-  setStorage("danmo_text", text);
+  for (var i = 0;  i < hashtag.length; i++) {
+    if (hashtag[i].checked) {
+      setStorage("danmo_text", text + ";" + hashtag[i].value);
+    }
+  }
+
 }

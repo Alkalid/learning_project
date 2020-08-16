@@ -111,9 +111,15 @@ chrome.runtime.onInstalled.addListener(function () {    //註冊監聽事件
   });
 
   chrome.storage.sync.set({
-    uid: ""
+    uid: "UKoUTHTRz0a"
   }, function () {
     
+  });
+
+  chrome.storage.sync.set({
+    nowVid: ""
+  }, function () {
+    console.log('The danmo_text is set.');
   });
 
 });
