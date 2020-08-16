@@ -22,12 +22,14 @@ document.getElementsByTagName("head")[0].appendChild(style);
 document.body.append(canvas);
 var context = canvas.getContext("2d");
 context.fillStyle = "#1e87ff";
-context.font = "45px 微軟正黑體";
+context.font = "30px 微軟正黑體";
 context.strokeStyle = "#000000";
+context.borderWidth = "0px";
 var text = [];
 
 class Text{
   constructor(text, color){
+      
       this.text = text;
       this.color = color;
       this.x = 1000;

@@ -12,6 +12,20 @@
   "background": {
     "scripts": ["background.js"]
   },
+  "content_scripts": [
+    {
+      "matches": [
+        
+        "https://www.youtube.com/*"
+      ]
+      ,"js": [
+        
+        "content_script.js"
+      ]
+      
+    }
+  ],
+
   "page_action": {
     "default_popup": "popup.html",
     "default_title": "註記功能",

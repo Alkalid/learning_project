@@ -64,14 +64,14 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {  //有東�
 
 });
 
-
+var wsocket2;
 function newMarks(text) {
   wsocket2 = new WebSocket("wss://114.35.11.36:3000/test");
   wsocket2.onopen = function (evt) {
     // 向server要資料
-    wsocket2.send("newDanmo " + VideoID + ";" + text + ";" + Math.floor(vdderr.currentTime)  + ";" + "UKpUTHTXgY");
+    wsocket2.send("newDanmo " + VideoID + ";" + text + ";" + Math.floor(vdderr.currentTime) + ";" + "UKpUTHTXgY");
   }
-  
+
 
   wsocket2.onmessage = function (re) {
     // server傳回的資料
@@ -80,9 +80,9 @@ function newMarks(text) {
     redata = re.data.toString();
 
     console.log(redata);
-    if(redata =="success"){
+    if (redata == "success") {
       //alert("close");
-      wsocket.close();
+      wsocket2.close();
     }
 
   }
@@ -92,7 +92,7 @@ function showMarks(MarksArr)      ////////////////獲得現在影片的時間
 {
   MarkIndex = 0;
   var VideoCurrentTime = 0;
-  
+
 
   vdderr.addEventListener('timeupdate', function () {   //讀取影片現在的秒數
     //renewColor();
@@ -125,4 +125,10 @@ function showMarks(MarksArr)      ////////////////獲得現在影片的時間
 }
 
 
+var imgtag = document.createElement('img'); //第4 tag img
+imgtag.setAttribute("src", "https://upload.cc/i1/2020/06/09/sHWv4f.png");
+imgtag.setAttribute("style", "width: 200px;margin-left: 14px;margin-right: 7px;margin-top: 4px;float:left");
 
+commentdiv = document.getElementById('secondary');
+commentdiv.setAttribute("style", "float:right" );
+commentdiv.prepend(imgtag);

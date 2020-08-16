@@ -33,78 +33,101 @@
 </head>
 
 <body>
-  <div class="container" >
+  <div class="container">
     <br>
+    <div id="ControlBoard" style="display:show">
 
-    <div class="row justify-content-center">
-      <div class="col-5">
-        <h3 class="text-center">開啟彈幕</h3>
-      </div>
-      <div class="col-7">
-        <div class="onoffswitch">
-          <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-          <label class="onoffswitch-label" for="myonoffswitch">
-            <span class="onoffswitch-inner"></span>
-            <span class="onoffswitch-switch"></span>
-          </label>
+      <div class="row justify-content-center" >
+        <div class="col-5">
+          <h3 class="text-center">開啟彈幕</h3>
+        </div>
+        <div class="col-7">
+          <div class="onoffswitch">
+            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+            <label class="onoffswitch-label" for="myonoffswitch">
+              <span class="onoffswitch-inner"></span>
+              <span class="onoffswitch-switch"></span>
+            </label>
+          </div>
         </div>
       </div>
+      <br>
+
+      <div class="row justify-content-center">
+        <div class="col-5">
+          <h3 class="text-center">更改顏色</h3>
+        </div>
+        <div class="col-7">
+          <input type="color" value="#2D9900" id="color" />
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row justify-content-center">
+        <div class="col-5">
+          <h3 class="text-center">留言</h3>
+        </div>
+        <div class="col-7">
+          <input type="text" id="comment" />
+        </div>
+        <div class="col-3">
+          <input type="submit" id="submitComment" />
+        </div>
+      </div>
+
+
+      <br>
+      
+
     </div>
+
+    <div id="LoginBoard" >
+
+      <div class="row justify-content-center" >
+        <div class="col-5">
+          <h3 class="text-center">帳號</h3>
+        </div>
+        <div class="col-7">
+          <input type="text" class="form-control" placeholder="帳號" id="account_input" text="">
+        </div>
+      </div>
+      <br>
+
+      <div class="row justify-content-center" >
+        <div class="col-5">
+          <h3 class="text-center">密碼</h3>
+        </div>
+        <div class="col-7">
+          <input type="password" class="form-control" placeholder="填入密碼" id="password_input" text="">
+        </div>
+        
+      </div>
+      <br>
+
+      <div class="row justify-content-center" >
+        <div class="col-5">
+          <input type="button" class="form-control"  id="login_btn" value="登入">
+        </div>
+      </div>
+
+    </div>
+
     <br>
     
-    <div class="row justify-content-center">
-      <div class="col-5">
-        <h3 class="text-center">更改顏色</h3>
-      </div>
-      <div class="col-7">
-        <input type="color" value="#2D9900" id="color"/>
-      </div>
-    </div>
-    
-    <br>
-    
-    <div class="row justify-content-center">
-      <div class="col-5">
-        <h3 class="text-center">留言</h3>
-      </div>
-      <div class="col-7">
-        <input type="text" id="comment"/>
-      </div>
-      <div class="col-3">
-        <input type="submit" id="submitComment"/>
-      </div>
-    </div>
 
 
-    <br>
-    <div class="row justify-content-center" style="visibility:hidden">
-      <div class="col-5">
-        <h3 class="text-center">更改頻道</h3>
-      </div>
-      <div class="col-7">
-        <input type="text" class="form-control" placeholder="頻道名稱" id="channel" text="">
-      </div>
-    </div>
-    <br>
+    <p style="visibility:visible" class="text-center" id="ta">
 
-
-   
-    <p id="msg" style="visibility:hidden"></p>
-    <h2 class="text-center" style="visibility:hidden" >QRcode</h2>
-    <div class="row justify-content-center" style="visibility:hidden">
-      <div id="qrcode"></div>
-    </div>
-    <p style="visibility:hidden" class="text-center">
-      發送彈幕
-      <a target="_blank" href="https://danmo.foxo.tw/"> https://danmo.foxo.tw/</a>
     </p>
-    <p style="visibility:hidden" class="text-center">
-      Design by  <a target="_blank" href="https://foxo.tw/">foxo.tw</a>
-    </p>
+
+
+
   </div>
 
 
   <script src="js/popup.js"></script>
+
 </body>
 
 </html>

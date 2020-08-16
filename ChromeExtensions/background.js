@@ -21,12 +21,40 @@ function checkForValidUrl(tabId, changeInfo, tab) //確認開啟擴充的網址
       chrome.pageAction.show(tabId);
       
   }
-  //alert(tab.url);
+  
 }
 
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
 
-////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+chrome.pageAction.onClicked.addListener(tab => {
+  
+  
+  chrome.storage.sync.get('uid', function (data) {
+    if(data.uid == "")
+    {
+      chrome.tabs.create({
+        url: chrome.extension.getURL("options.html")
+      });
+      //toLogin();
+      console.log("跳轉");
+    }
+    else{
+      console.log("有uid: "+ data.uid);
+    }
+  });
+  
+})
+
+function toLogin() {
+  chrome.tabs.create({
+    url: chrome.extension.getURL("options.html")
+  });
+}
+
+
 function setStorage(key,value){
   chrome.storage.sync.set({
     key: value
@@ -34,19 +62,25 @@ function setStorage(key,value){
     console.log('Key:'+key+' change to :'+value);
   });
 }
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
+
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){   //當按鈕被按下時
+  
+  
   if(message.popupOpen) {
     chrome.tabs.executeScript({file: "js/jquery.min.js"});
     chrome.tabs.executeScript({file: "js/danmo.js"});
     chrome.tabs.executeScript({file: "js/function.js"});
     chrome.tabs.executeScript({file: "js/insert.js"});
-
+    
     chrome.tabs.executeScript({file: "js/docking.js"});
    }
 });
 
+
+
 var token;
-chrome.runtime.onInstalled.addListener(function () {
+chrome.runtime.onInstalled.addListener(function () {    //註冊監聽事件
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -74,6 +108,12 @@ chrome.runtime.onInstalled.addListener(function () {
     danmo_text: ""
   }, function () {
     console.log('The danmo_text is set.');
+  });
+
+  chrome.storage.sync.set({
+    uid: ""
+  }, function () {
+    
   });
 
 });
