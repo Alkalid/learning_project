@@ -159,15 +159,15 @@ function showMarks(MarksArr)      ////////////////獲得現在影片的時間
 
     if(alertTab[Math.floor(this.currentTime)] == 0 )
     {
-      alertbtn.setAttribute("style", "width: 200px; height:20px; background-color: green;");
+      alertbtn.setAttribute("style", "width: 220px; height:20px; background-color: green;");
     }
     else if(alertTab[Math.floor(this.currentTime)] == 1 )
     {
-      alertbtn.setAttribute("style", "width: 200px; height:20px; background-color: yellow;");
+      alertbtn.setAttribute("style", "width: 220px; height:20px; background-color: yellow;");
     }
     else if(alertTab[Math.floor(this.currentTime)] > 0 )
     {
-      alertbtn.setAttribute("style", "width: 200px; height:20px; background-color: red;");
+      alertbtn.setAttribute("style", "width: 220px; height:20px; background-color: red;");
     }
 
     while (MarkIndex < MarksArr.length) {
@@ -200,27 +200,31 @@ function showMarks(MarksArr)      ////////////////獲得現在影片的時間
 function ShowMsgBoard(MarksArr) {
 
   var MsgBoard_div = document.createElement('div');
-  MsgBoard_div.setAttribute("style", "height:500px; width:350px; overflow:auto;");
+  MsgBoard_div.setAttribute("style", "height:500px; width:450px; overflow:auto;");
 
 
   var content_div = document.createElement('div');
   content_div.setAttribute("style", "float:left;");
 
   var Sec_div = document.createElement('div');
-
+  var thi_div = document.createElement('div');
 
   for (var i = 0; i < MarksArr.length; i++) {
     p1 = document.createElement('p');
     p2 = document.createElement('p');
+    p3 = document.createElement('p');
     p1.innerHTML = MarksArr[i]['content'] + " ";
     p2.innerHTML = "  " + MarksArr[i]['time'];
+    //p3.innerHTML = "  " + MarksArr[i]['date'];
     //MsgBoard_div.innerHTML += MarksArr[i]['content']  ;
     content_div.appendChild(p1);
     Sec_div.appendChild(p2);
+    thi_div.appendChild(p3);
   }
 
   MsgBoard_div.appendChild(content_div);
   MsgBoard_div.appendChild(Sec_div);
+  MsgBoard_div.appendChild(thi_div);
 
   var thebr = document.createElement('br');
 
@@ -230,12 +234,13 @@ function ShowMsgBoard(MarksArr) {
   commentdiv.prepend(thebr);
   commentdiv.prepend(thebr);
   commentdiv.prepend(MsgBoard_div);
+  commentdiv.prepend(thebr);
   commentdiv.prepend(alertbtn);
 
 }
 
 var alertbtn = document.createElement('button');
-
+alertbtn.setAttribute("style", "width: 220px; height:20px; background-color: green;");
 
 var imgtag = document.createElement('img'); //第4 tag img
 imgtag.setAttribute("src", "https://upload.cc/i1/2020/06/09/sHWv4f.png");
