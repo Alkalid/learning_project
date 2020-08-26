@@ -204,9 +204,10 @@ function ShowMsgBoard(MarksArr) {
 
 
   var content_div = document.createElement('div');
-  content_div.setAttribute("style", "float:left;");
+  content_div.setAttribute("style", "float:left; margin-right: 10px;");
 
   var Sec_div = document.createElement('div');
+  Sec_div.setAttribute("style", "margin-left: 3px;");
   var thi_div = document.createElement('div');
 
   for (var i = 0; i < MarksArr.length; i++) {

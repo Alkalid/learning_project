@@ -111,7 +111,7 @@ chrome.runtime.onInstalled.addListener(function () {    //註冊監聽事件
   });
 
   chrome.storage.sync.set({
-    uid: "UKoUTHTRz0a"
+    uid: ""
   }, function () {
     
   });
