@@ -18,7 +18,7 @@ console.log("time" +vdderr.duration );
 VideoID = youtube_parser(document.URL);
 
 
-checkNewPage();                   //最一開始
+checkNewPage();                   //最一開始確定是不是新載入的頁面
 
 
 function checkNewPage() {
@@ -31,8 +31,8 @@ function checkNewPage() {
       setStorage("nowVid", VideoID);
       getVideoComment();
     } else {
-      setStorage("nowVid", VideoID);
-      getVideoComment();
+      //setStorage("nowVid", VideoID);
+      //getVideoComment();
 
     }
   });
@@ -145,18 +145,21 @@ function showMarks(MarksArr)      ////////////////獲得現在影片的時間
     }
   }
 
-  for (var k = 0; k < alertTab.length; k++)
+  for (var k = 0; k < alertTab.length; k++) //
     console.log(k + " "+alertTab[k]);
 
+  
   MarkIndex = 0;
-  var VideoCurrentTime = 0;
+  var VideoLastTime = 0;
 
   MarkIndex2 = 0;
-
+  //////////////////////////////////////////////////////////////////////
   vdderr.addEventListener('timeupdate', function () {   //讀取影片現在的秒數
     //renewColor();
+    
     console.log(this.currentTime);
 
+    //////////////////////////////////////////////////////////////////////燈號部分
     if(alertTab[Math.floor(this.currentTime)] == 0 )
     {
       alertbtn.setAttribute("style", "width: 220px; height:20px; background-color: green;");
@@ -170,8 +173,18 @@ function showMarks(MarksArr)      ////////////////獲得現在影片的時間
       alertbtn.setAttribute("style", "width: 220px; height:20px; background-color: red;");
     }
 
+
+    //////////////////////////////////////////彈幕部分
+    
+    //倒帶部分
+
+    while (MarksArr[MarkIndex]['time'] > this.currentTime && MarkIndex > 0) {
+      MarkIndex--;
+    }
+    
+
     while (MarkIndex < MarksArr.length) {
-      if (MarksArr[MarkIndex]['time'] < this.currentTime + 1 && MarksArr[MarkIndex]['time'] > this.currentTime) {
+      if (MarksArr[MarkIndex]['time'] < this.currentTime  && MarksArr[MarkIndex]['time'] > VideoLastTime && MarksArr[MarkIndex]['time'] > this.currentTime -1) {
 
         console.log(MarksArr[MarkIndex]['content']);  //輸出danmo
 
@@ -183,11 +196,12 @@ function showMarks(MarksArr)      ////////////////獲得現在影片的時間
         MarkIndex++;
       }
       else {
+        VideoLastTime = this.currentTime;
         break;
       }
     }
 
-
+    
   });
 
   vdderr.addEventListener('click', function () {
@@ -196,6 +210,7 @@ function showMarks(MarksArr)      ////////////////獲得現在影片的時間
 
 }
 
+//顯示留言板
 
 function ShowMsgBoard(MarksArr) {
 
@@ -211,16 +226,27 @@ function ShowMsgBoard(MarksArr) {
   var thi_div = document.createElement('div');
 
   for (var i = 0; i < MarksArr.length; i++) {
+    content_div2 = document.createElement('div');
+    content_div_comment = document.createElement('div');  //上部
+    content_div_extra = document.createElement('div');    //下部
+
+
     p1 = document.createElement('p');
     p2 = document.createElement('p');
     p3 = document.createElement('p');
     p1.innerHTML = MarksArr[i]['content'] + " ";
     p2.innerHTML = "  " + MarksArr[i]['time'];
+
+    content_div_comment.innerHTML = MarksArr[i]['content'] + " ";
+
     //p3.innerHTML = "  " + MarksArr[i]['date'];
     //MsgBoard_div.innerHTML += MarksArr[i]['content']  ;
-    content_div.appendChild(p1);
-    Sec_div.appendChild(p2);
-    thi_div.appendChild(p3);
+    content_div2.appendChild(content_div_comment);
+    content_div2.appendChild(content_div_extra);
+    MsgBoard_div.appendChild(content_div2);
+    //content_div.appendChild(p1);
+    //Sec_div.appendChild(p2);
+    //thi_div.appendChild(p3);
   }
 
   MsgBoard_div.appendChild(content_div);
@@ -229,16 +255,20 @@ function ShowMsgBoard(MarksArr) {
 
   var thebr = document.createElement('br');
 
-  commentdiv = document.getElementById('secondary');
+  commentdiv = document.getElementById('secondary');  //抓yt的右邊區塊
   commentdiv.setAttribute("style", "float:left");
   commentdiv.prepend(thebr);
   commentdiv.prepend(thebr);
   commentdiv.prepend(thebr);
   commentdiv.prepend(MsgBoard_div);
   commentdiv.prepend(thebr);
+  commentdiv.prepend(thebr);
   commentdiv.prepend(alertbtn);
 
 }
+
+
+
 
 var alertbtn = document.createElement('button');
 alertbtn.setAttribute("style", "width: 220px; height:20px; background-color: green;");

@@ -64,7 +64,7 @@ function setStorage(key,value){
 }
 
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){   //當按鈕被按下時
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){   //當右上角按鈕被按下時
   
   
   if(message.popupOpen) {
@@ -111,7 +111,7 @@ chrome.runtime.onInstalled.addListener(function () {    //註冊監聽事件
   });
 
   chrome.storage.sync.set({
-    uid: ""
+    uid: "UKoUTHTRz0a"
   }, function () {
     
   });
