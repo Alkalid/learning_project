@@ -13,18 +13,18 @@ function youtube_parser(url){
 function checkForValidUrl(tabId, changeInfo, tab) //確認開啟擴充的網址
 {
   
-  //console.log(tab.url);
+  
   //if (tab.url.indexOf('youtube.com') > -1) 
   if (youtube_parser(tab.url) != false) 
   {
       // ... show the page action.
       chrome.pageAction.show(tabId);
-      
+      //alert(youtube_parser(tab.url));
   }
   
 }
 
-chrome.tabs.onUpdated.addListener(checkForValidUrl);
+chrome.tabs.onUpdated.addListener(checkForValidUrl);  //當網址改變的時候會觸發的事件
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
