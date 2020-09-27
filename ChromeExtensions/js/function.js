@@ -1,0 +1,1 @@
+vdderr = document.querySelector('video');

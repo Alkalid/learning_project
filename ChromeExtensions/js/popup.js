@@ -10,8 +10,11 @@ let ta = document.getElementById('ta');
 let color_input = document.getElementById('color');
 let comment_input = document.getElementById('comment');
 let submit_input = document.getElementById('submitComment');
+let toRecord_span = document.getElementById('toRecord_span');  //查看分析 按鈕
 
-
+let emoji_input = document.getElementsByName('emoji'); //
+for(var i=0;i<emoji_input.length;i++)
+    emoji_input[i].onclick = newEmoji;
 
 /////////////////////////////
 //let channel_name_tag = document.getElementById('channel');
@@ -139,6 +142,8 @@ login_btn.onclick = function (element) {  //送出登入請求
   }
 }
 
+
+
 function PageSwitcher(state) {            //更改顯示的區塊
   if (state == 0) {
     LoginBoard.style.display = '';
@@ -171,3 +176,15 @@ function setDanmoText(text) {
   }
 
 }
+
+function newEmoji(e) {
+  //ta.innerText = this.value;
+  setStorage("danmo_text", this.value + ";emoji" );
+}
+
+toRecord_span.onclick = function (element) {    //查看分析的按鈕被按下，就開啟新分頁
+  window.open('http://114.35.11.36:5000/home');
+
+}
+
+  

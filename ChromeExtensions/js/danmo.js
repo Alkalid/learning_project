@@ -40,7 +40,7 @@ class Text{
   }
 
   update(){
-      this.x-=8;
+      this.x-=4;  //移動速度
       context.fillStyle = this.color;
       context.fillText(this.text, this.x, this.y);
       context.strokeText(this.text, this.x, this.y);

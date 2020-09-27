@@ -36,8 +36,8 @@
   <div class="container">
     <br>
     <div id="ControlBoard" style="display:show">
-
-      <div class="row justify-content-center">
+      <span style = "color:blue; float:right; " id="toRecord_span" >學習紀錄</span>
+      <div class="row justify-content-center" style="display:none">
         <div class="col-5">
           <h3 class="text-center">開啟彈幕</h3>
         </div>
@@ -71,14 +71,45 @@
         <div class="col-5">
           <input type="text" id="comment" />
         </div>
-        <div class="col-3">
+        <div class="col-2">
           <input type="submit" id="submitComment" />
         </div>
-        <div class="col-7">
-          <input type="radio" name="hashtag" value="聽不懂">聽不懂
-          <input type="radio" name="hashtag" value="有bug">有bug
+        <div class="col-6" style="margin-left: 80px;">
+          <input type="radio" name="hashtag" value="勘誤">勘誤
           <input type="radio" name="hashtag" value="有問題" checked>有問題
           <input type="radio" name="hashtag" value="其他">其他
+        </div>
+
+      </div>
+
+      <br>
+
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <h3 class="text-center">表情</h3>
+        </div>
+
+        <div class="col-7">
+          <div style="float: left; margin-right: 10px;">
+            <button style="font-size:20px ; border: 0px; background :rgba(0, 0, 0, 0);"  name="emoji" value="#傷心">😔</button>
+            <p style="float: button; ">傷心</p>
+          </div>
+
+          <div style="float: left; margin-right: 10px;">
+            <button style="font-size:20px ; border: 0px; background :rgba(0, 0, 0, 0);"  name="emoji" value="#聽不懂">😖</button>
+            <p style="float: button; ">聽不懂</p>
+          </div>
+
+          <div style="float: left; margin-right: 10px;">
+            <button style="font-size:20px ; border: 0px; background :rgba(0, 0, 0, 0);"  name="emoji" value="#要想一下">🤔</button>
+            <p style="float: button; ">要想一下</p>
+          </div>
+
+          <div style="float: left; margin-right: 10px;">
+            <button style="font-size:20px ; border: 0px; background :rgba(0, 0, 0, 0);"  name="emoji" value="#簡單">😁</button>
+            <p style="float: button; ">簡單</p>
+          </div>
+
         </div>
 
       </div>
