@@ -3,6 +3,9 @@
 // found in the LICENSE file.
 
 'use strict';
+var nowVid = "";
+var opened = 0;
+var uid = "";
 
 function youtube_parser(url){
   var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -13,19 +16,32 @@ function youtube_parser(url){
 function checkForValidUrl(tabId, changeInfo, tab) //確認開啟擴充的網址
 {
   
-  
-  //if (tab.url.indexOf('youtube.com') > -1) 
   if (youtube_parser(tab.url) != false) 
   {
-      // ... show the page action.
+      
+      
       chrome.pageAction.show(tabId);
-      //alert(youtube_parser(tab.url));
+      
+      setStorage("nowVid", youtube_parser(tab.url));
+      if(nowVid == "")
+      {
+        nowVid = youtube_parser(tab.url);
+        opened = 0;
+      }
+      else if(nowVid != youtube_parser(tab.url) ) //表示換頁
+      {
+        //chrome.tabs.reload();
+        nowVid = youtube_parser(tab.url);
+        opened = 0;
+      }
+      
   }
-  
+ 
 }
 
 chrome.tabs.onUpdated.addListener(checkForValidUrl);  //當網址改變的時候會觸發的事件
 
+chrome.tabs.onRemoved.addListener();  //關閉分頁
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -42,6 +58,7 @@ chrome.pageAction.onClicked.addListener(tab => {
       console.log("跳轉");
     }
     else{
+      uid = data.uid;
       console.log("有uid: "+ data.uid);
     }
   });
@@ -54,26 +71,34 @@ function toLogin() {
   });
 }
 
-
+function setStorage(key, value) {
+  var jsonfile = {};
+  jsonfile[key] = value;
+  chrome.storage.sync.set(jsonfile, function () {
+    console.log('Key:' + key + ' change to :' + value);
+  });
+}
+/*
 function setStorage(key,value){
   chrome.storage.sync.set({
     key: value
   }, function () {
     console.log('Key:'+key+' change to :'+value);
   });
-}
+}*/
 
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){   //當右上角按鈕被按下時
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){   
   
   
-  if(message.popupOpen) {
+
+  if(message.popupOpen && opened == 0 ) {   //當右上角按鈕被按下時
     chrome.tabs.executeScript({file: "js/jquery.min.js"});
     chrome.tabs.executeScript({file: "js/danmo.js"});
     chrome.tabs.executeScript({file: "js/function.js"});
     chrome.tabs.executeScript({file: "js/insert.js"});
-    
     chrome.tabs.executeScript({file: "js/docking.js"});
+    opened = 1;
    }
 });
 
@@ -111,7 +136,7 @@ chrome.runtime.onInstalled.addListener(function () {    //註冊監聽事件
   });
 
   chrome.storage.sync.set({
-    uid: "UKoUTHTRz0a"
+    uid: ""
   }, function () {
     
   });
