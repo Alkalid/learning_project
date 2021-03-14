@@ -1,11 +1,34 @@
+var wssip = "wss://114.35.11.36:3000";
+////////////////////////
 var VideoID = "";
 var d_color = "";
 var uid = "";
-var rid = "HodkvDeA";
+var rid = "";
 var wsocket;
 var alertTab; //用來顯示警告
+var executed = 0;
 
-vdderr = document.querySelector('video');
+var vdderr = document.getElementsByTagName('video')[0];
+var VideoDuration = vdderr.duration;
+
+var LiveViews = document.createElement('p');                                              //顯示目前線上人數
+LiveViews.setAttribute("style","font-size:15px;");
+LiveViews.id = "LiveViews";
+
+var alertbtn = document.createElement('button');                                          //右上角的警示紅綠燈
+alertbtn.setAttribute("style", "width: 220px; height:20px; background-color: green;");
+alertbtn.id = "alertbtn";
+
+var imgtag = document.createElement('img'); //第4 tag img
+imgtag.setAttribute("src", "https://upload.cc/i1/2020/06/09/sHWv4f.png");
+imgtag.setAttribute("style", "width: 200px;margin-left: 14px;margin-right: 7px;margin-top: 4px;float:left");
+
+/*
+commentdiv = document.getElementById('secondary');
+commentdiv.setAttribute("style", "float:right");
+commentdiv.prepend(imgtag);*/
+
+
 
 function youtube_parser(url) {    //獲得影片id
   var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -22,30 +45,28 @@ VideoID = youtube_parser(document.URL);
 checkNewPage();                   //最一開始確定是不是新載入的頁面
 
 
-
-
 function checkNewPage() {
+  initMsgBoard();
+  setStorage("nowVid", VideoID);
+  getVideoComment();
+  
   chrome.storage.sync.get('nowVid', function (data) {
     console.log("nowVid" + data.nowVid);
-    if (data.nowVid == "") {
+    
+    if (data.nowVid != VideoID) {    //跳影片了
+      
       setStorage("nowVid", VideoID);
-      getVideoComment();
-
-    } else if (data.nowVid != VideoID) {    //跳影片了
-
-      setStorage("nowVid", VideoID);
-      getVideoComment();
-    } else {
-      //setStorage("nowVid", VideoID);
+      //initMsgBoard();
+      
       //getVideoComment();
-
     }
+  
   });
 }
 
 function getVideoComment() {    //讀取影片彈幕、留言板
-
-  wsocket = new WebSocket("wss://114.35.11.36:3000/test");
+  VideoID = youtube_parser(document.URL);
+  wsocket = new WebSocket(wssip+"/test");
   wsocket.onopen = function (evt) {
     // 向server要資料
     wsocket.send("getDanmo " + VideoID);
@@ -58,9 +79,10 @@ function getVideoComment() {    //讀取影片彈幕、留言板
     redata = re.data.toString();
 
     //console.log(redata);
-
+    
     if (redata.split("@")[0] == "Danmo") {
       var PostArr = JSON.parse(redata.split("@")[1]);
+      wsocket.close();
       for (var i = 0; i < PostArr.length; i++) {  //獲得+處理影片註記
 
 
@@ -68,17 +90,21 @@ function getVideoComment() {    //讀取影片彈幕、留言板
         //console.log(post_id);
       }
       ShowMsgBoard(PostArr);
+      
+      //alert("getVideoComment " + vdderr.duration);
       showMarks(PostArr);
-      //newRecord();
-      getLiveViewers();
+      
+      newRecord();
+      
       console.log("aftershowMarks");
     }
 
   }
+  
 }
 
 function getLiveViewers() {
-  wsocket = new WebSocket("wss://114.35.11.36:3000/test");
+  wsocket = new WebSocket(wssip+"/test");
   wsocket.onopen = function (evt) {
     // 向server要資料
     wsocket.send("getLiveViewers " + VideoID + ";");
@@ -93,7 +119,7 @@ function getLiveViewers() {
     var liveView = PostArr[0]['COUNT(*)'];
 
     //console.log("liveView"+liveView);
-    LiveViews.innerText = "有" + liveView + "個人與您同時觀看";
+    LiveViews.innerText = "有" + (liveView-1) + "個人與您同時觀看";
     wsocket.close();
 
   }
@@ -104,7 +130,7 @@ function getLiveViewers() {
 
 function newRecord() {
   getUid();
-  wsocket = new WebSocket("wss://114.35.11.36:3000/test");
+  wsocket = new WebSocket(wssip+"/test");
   wsocket.onopen = function (evt) {
     // 向server要資料
     wsocket.send("newRecord "  + uid + ";" + VideoID);
@@ -116,8 +142,9 @@ function newRecord() {
     var redata = "";
     redata = re.data.toString();
     rid = redata.split(" ")[1];
+    //alert(rid);
     wsocket.close();
-
+    getLiveViewers();
   }
 
 }
@@ -131,7 +158,7 @@ vdderr.addEventListener('pause', function () {    //偵測暫停
 });
 
 function newRecordBehavior(event) {
-  wsocket = new WebSocket("wss://114.35.11.36:3000/test");
+  wsocket = new WebSocket(wssip+"/test");
   wsocket.onopen = function (evt) {
     //wsocket.send("newRecordBehavior "  + rid + ";" + event + ";" + vdderr.currentTime);
     wsocket.close();
@@ -141,7 +168,7 @@ function newRecordBehavior(event) {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-chrome.storage.onChanged.addListener(function (changes, namespace) {  //有東西改變的話
+chrome.storage.onChanged.addListener(function (changes, namespace) {  //有東西改變的話 顏色 
 
   for (var key in changes) {
     var storageChange = changes[key];
@@ -156,8 +183,11 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {  //有東�
       //alert(storageChange.newValue);
     }
 
-    if (key == "danmo_enable") {
-
+    if (key == "nowVid") {
+      //initMsgBoard();
+      //alert("inited " + vdderr.duration);
+      
+      //alert("initMsgBoard");
     }
 
   }
@@ -167,7 +197,7 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {  //有東�
 var wsocket2;
 function newMarks(text) {         //新增彈幕
   text_arr = text.split(";");
-  wsocket2 = new WebSocket("wss://114.35.11.36:3000/test");
+  wsocket2 = new WebSocket(wssip+"/test");
   getUid();
   wsocket2.onopen = function (evt) {
     // 向server要資料
@@ -190,9 +220,15 @@ function newMarks(text) {         //新增彈幕
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////顯示彈幕
 
-function showMarks(MarksArr)      ////////////////獲得現在影片的時間
+function showMarks(MarksArr )      ////////////////獲得現在影片的時間
 {
-  alertTab = new Array(Math.floor(vdderr.duration)); //燈號以秒計算
+  
+  //this.vdderr = document.getElementsByTagName('video')[0];
+  //alert("showMarks: "+vdderr.duration);
+  //alert("showMarks: arr "+MarksArr.length);
+
+  var alertTab = new Array(Math.floor(vdderr.duration)); //燈號以秒計算
+  
   for (var k = 0; k < alertTab.length; k++) {
     alertTab[k] = 0;
   }
@@ -375,26 +411,38 @@ function ShowMsgBoard(MarksArr) {
   commentdiv.prepend(LiveViews);
 }
 
+function initMsgBoard() {   //刷新
+  vdderr = document.getElementsByTagName('video')[0];
+  VideoDuration = vdderr.duration;
+  //alert("刷新 " + vdderr.duration);
 
-var LiveViews = document.createElement('p');  
-LiveViews.setAttribute("style","font-size:15px;");
+  let Second = document.getElementById('secondary');
+  let MsgBoard_div = document.getElementById('MsgBoard_div');
+  let LiveViews = document.getElementById('LiveViews');
+  let altbtn = document.getElementById('alertbtn');
+  if(MsgBoard_div != null)
+  {
+    Second.removeChild(MsgBoard_div);
+  }
+  if(LiveViews != null)
+  {
+    Second.removeChild(LiveViews);
+  }
+  if(altbtn != null)
+  {
+    Second.removeChild(altbtn);
+  }
+  
+}
 
-var alertbtn = document.createElement('button');                                          //右上角的警示紅綠燈
-alertbtn.setAttribute("style", "width: 220px; height:20px; background-color: green;");
 
-var imgtag = document.createElement('img'); //第4 tag img
-imgtag.setAttribute("src", "https://upload.cc/i1/2020/06/09/sHWv4f.png");
-imgtag.setAttribute("style", "width: 200px;margin-left: 14px;margin-right: 7px;margin-top: 4px;float:left");
-/*
-commentdiv = document.getElementById('secondary');
-commentdiv.setAttribute("style", "float:right");
-commentdiv.prepend(imgtag);*/
+
 
 
 window.onunload   = function()
 {
     //alert("close?");
-    wsocket = new WebSocket("wss://114.35.11.36:3000/test");
+    wsocket = new WebSocket(wssip+"/test");
     getUid();
     wsocket.onopen = function (evt) {
       // 向server要資料

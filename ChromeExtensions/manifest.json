@@ -1,7 +1,7 @@
 {
-  "name": "彈幕",
+  "name": "註記",
   "version": "1.0.0",
-  "description": "本產品適用於網頁介面，在台上演講時，可使用本插件，讓觀眾掃描qrcode發送彈幕到演講者電腦，增加互動性。",
+  "description": "本產品適用於youtube上之課程學習",
   "permissions": [
     "tabs",
     "activeTab", 
@@ -16,7 +16,7 @@
     {
       "matches": [
         
-        "https://www.youtube.com/*"
+        "https://www.youtube.com/watch?*"
       ]
       ,"js": [
         
