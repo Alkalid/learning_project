@@ -34,8 +34,8 @@ class Text{
       this.color = color;
       this.x = 1000;
       //this.x = canvas.width;
-      this.y = random(120, canvas.height - 200);  //彈幕位置
-      //this.y = random(60, canvas.height - 12);
+      this.y = random(120, canvas.height - 200);  //彈幕位置X軸 隨機產生
+      //this.y = random(60, canvas.height - 12);  
       this.width = context.measureText(this.text);
   }
 

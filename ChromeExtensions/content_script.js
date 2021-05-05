@@ -11,7 +11,6 @@ function onExtensionMessage(request) {
   }
   
   function initContentScript() {
-    //alert("auto");
     //doBackgroundJob();
     chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
       if (msg.action == '彈幕') {

@@ -1,4 +1,4 @@
-var wssip = "wss://114.35.11.36:3000";
+var wssip = "wss://114.35.11.36:3000";  //與後端進行Wss的ip
 ////////////////////////
 var VideoID = "";
 var d_color = "";
@@ -168,17 +168,17 @@ function newRecordBehavior(event) {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-chrome.storage.onChanged.addListener(function (changes, namespace) {  //有東西改變的話 顏色 
+chrome.storage.onChanged.addListener(function (changes, namespace) {  //有東西改變的話 
 
   for (var key in changes) {
     var storageChange = changes[key];
 
-    if (key == "danmo_text") {
+    if (key == "danmo_text") {            //彈幕內容
       newMarks(storageChange.newValue);
       //alert(storageChange.newValue);
     }
 
-    if (key == "danmo_color") {
+    if (key == "danmo_color") {           //顏色 
       d_color = storageChange.newValue;
       //alert(storageChange.newValue);
     }
@@ -189,7 +189,6 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {  //有東�
       
       //alert("initMsgBoard");
     }
-
   }
 
 });
@@ -222,11 +221,6 @@ function newMarks(text) {         //新增彈幕
 
 function showMarks(MarksArr )      ////////////////獲得現在影片的時間
 {
-  
-  //this.vdderr = document.getElementsByTagName('video')[0];
-  //alert("showMarks: "+vdderr.duration);
-  //alert("showMarks: arr "+MarksArr.length);
-
   var alertTab = new Array(Math.floor(vdderr.duration)); //燈號以秒計算
   
   for (var k = 0; k < alertTab.length; k++) {

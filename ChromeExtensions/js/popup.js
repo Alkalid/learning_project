@@ -1,6 +1,3 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
 'use strict';
 
@@ -29,7 +26,7 @@ let password_input = document.getElementById('password_input');
 let login_btn = document.getElementById('login_btn');
 let hashtag = document.getElementsByName('hashtag');
 
-function setStorage(key, value) {
+function setStorage(key, value) {                         //將要傳遞的資料(留言 彈幕顏色 傳遞給dockong.js)
   var jsonfile = {};
   jsonfile[key] = value;
   chrome.storage.sync.set(jsonfile, function () {
@@ -68,34 +65,6 @@ chrome.storage.sync.get('danmo_enable', function (data) {
     $('#myonoffswitch').prop('checked', false);
   }
 });
-/*function setChannel(channel) {
-  setStorage("danmo_channel",channel);
-
-    channel_name_tag.value = channel;
-    msg.text = "更改成功";
-    setQRcode(channel);
-
-}*/
-/*
-channel_button.onclick = function (element) {
-  setChannel(channel_name_tag.value);
-}*/
-/*
-rand_set_cha.onclick = function (element) {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < 5; i++)
-   text += possible.charAt(Math.floor(Math.random() * possible.length));
-  setChannel(text);
-}*/
-/*$('#channel').keypress(function (e) {
-  var key = e.which;
-  if(key == 13)  // the enter key code
-   {
-    setChannel(channel_name_tag.value);
-   }
- });*/
 
 
 ///////////////////////////////////////////////////////////////////////by an
